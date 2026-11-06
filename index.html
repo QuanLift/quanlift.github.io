@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuanLift — Quantum programs you can trust, from the code you already have</title>
+<meta name="description" content="QuanLift, a Tulane University spin-out, builds software that lets teams run their existing optimization code on quantum computers, with a machine-checked guarantee on the translation.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Ccircle cx='24' cy='32' r='18' fill='none' stroke='%2315213a' stroke-width='7'/%3E%3Cpath d='M30 30 L50 10' stroke='%23e8873a' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M36 10 H50 V24' fill='none' stroke='%23e8873a' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--navy:#15213a;--ink:#1d2738;--muted:#5b6577;--paper:#fbfbf9;--line:#e3e6ea;--accent:#e8873a;--accent-ink:#b0560f;--mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Manrope,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+a{color:var(--accent-ink)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;background:rgba(251,251,249,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:5}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--navy);font-weight:800;font-size:22px;letter-spacing:-.02em}
+.brand b{font-weight:800}.brand span{font-weight:500}
+.brand svg{width:30px;height:30px}
+nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:15px;font-weight:500}
+nav a:hover{color:var(--navy)}
+.hero{background:var(--navy);color:#f7f6f2;padding:88px 0 72px}
+.hero h1{font-size:clamp(34px,5vw,54px);line-height:1.08;letter-spacing:-.02em;margin:0 0 20px;max-width:16ch;text-wrap:balance}
+.hero p{font-size:19px;max-width:60ch;color:#dce3ee;margin:0 0 28px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+.btn{display:inline-block;background:var(--accent);color:var(--navy);font-weight:700;padding:12px 20px;border-radius:8px;text-decoration:none}
+.btn:hover{background:#f09a55}
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+h2{font-size:30px;letter-spacing:-.02em;margin:0 0 14px;color:var(--navy)}
+.lead{font-size:18px;color:var(--muted);max-width:64ch;margin:0 0 36px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.col h3{font-size:18px;margin:0 0 8px;color:var(--navy)}
+.col p{margin:0;color:var(--muted)}
+.num{font-size:44px;font-weight:800;color:var(--navy);line-height:1;letter-spacing:-.02em}
+.num small{display:block;font-size:14px;font-weight:500;color:var(--muted);margin-top:6px;letter-spacing:0}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:16px;align-items:center;margin-top:8px}
+.box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px}
+.box h3{font-size:17px;margin:0 0 6px;color:var(--navy)}
+.box p{margin:0;color:var(--muted);font-size:15px}
+.arrow{font-size:28px;color:var(--accent);text-align:center}
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:24px}.demo>div,.col,.box,.person{min-width:0}
+.code{background:var(--navy);color:#e9edf5;border-radius:12px;padding:20px 22px;font-family:var(--mono);font-size:13.5px;line-height:1.6;overflow-x:auto;margin:0;white-space:pre}
+.code .c{color:#8fa3c4}.code .k{color:#f0b27a}.code .ok{color:#4fd1b5}.code .no{color:#ff9d7a}
+.cap{font-size:14px;color:var(--muted);margin:10px 0 0}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.person{background:#fff;border:1px solid var(--line);border-radius:12px;padding:26px}
+.person h3{margin:0 0 2px;font-size:20px;color:var(--navy)}
+.person .role{color:var(--accent-ink);font-weight:700;font-size:14px;margin-bottom:10px}
+.person p{margin:0;color:var(--muted);font-size:15px}
+.news{list-style:none;padding:0;margin:0;max-width:64ch}
+.news li{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.news li:last-child{border-bottom:1px solid var(--line)}
+.news time{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:3px}
+form{max-width:560px}
+label{display:block;font-weight:700;font-size:14px;margin:16px 0 6px;color:var(--navy)}
+input,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid #c9cfd8;border-radius:8px;background:#fff}
+input:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
+textarea{min-height:140px;resize:vertical}
+.hp{position:absolute;left:-9999px}
+button{margin-top:18px;background:var(--navy);color:#fff;font:inherit;font-weight:700;border:0;padding:12px 22px;border-radius:8px;cursor:pointer}
+button:hover{background:#243659}
+footer{padding:36px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (max-width:760px){.cols,.team,.demo{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}nav{display:none}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap nav">
+  <a class="brand" href="#top" aria-label="QuanLift home">
+    <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="24" cy="32" r="18" fill="none" stroke="#15213a" stroke-width="7"/><path d="M30 30 L50 10" stroke="#e8873a" stroke-width="7" stroke-linecap="round"/><path d="M36 10 H50 V24" fill="none" stroke="#e8873a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <b>Quan<span>Lift</span></b>
+  </a>
+  <nav><a href="#problem">The problem</a><a href="#approach">What we do</a><a href="#demo">Example</a><a href="#team">Team</a><a href="#news">News</a><a href="#contact">Contact</a></nav>
+</div></header>
+
+<main id="top">
+<div class="hero"><div class="wrap">
+  <span class="eyebrow">A Tulane University spin-out</span>
+  <h1>Quantum programs you can trust, from the code you already have.</h1>
+  <p>QuanLift translates existing optimization code into quantum programs and backs each translation with a machine-checked guarantee, so teams can try quantum hardware on their own problems without a quantum specialist and without a silently wrong answer.</p>
+  <a class="btn" href="#contact">Talk to us</a>
+</div></div>
+
+<section id="problem"><div class="wrap">
+  <h2>Interest in quantum computing is broad. Adoption is shallow.</h2>
+  <p class="lead">Organizations want to know whether quantum acceleration helps on their own optimization problems. Today that takes a specialist to reformulate the problem by hand, and specialists are scarce. The code that does get written can be wrong in ways nobody can see.</p>
+  <div class="cols">
+    <div class="col"><div class="num">89%<small>of surveyed organizations report hands-on quantum activity</small></div></div>
+    <div class="col"><div class="num">10%<small>have reached production use</small></div></div>
+    <div class="col"><div class="num">3%<small>operate at scale; skills shortages are a top barrier</small></div></div>
+  </div>
+  <p class="cap">Source: IQM &amp; The Quantum Insider, <em>State of Quantum 2026</em>.</p>
+</div></section>
+
+<section id="approach"><div class="wrap">
+  <h2>What we do</h2>
+  <p class="lead">Give QuanLift ordinary Python optimization code. It returns a quantum program together with a machine-checked proof that the problem was encoded correctly for the problem family it recognized, and a check that the generated circuit matches that encoding. When it cannot give that guarantee, it declines and says why.</p>
+  <div class="flow">
+    <div class="box"><h3>Your Python</h3><p>Existing optimization code, as written. No annotations, no quantum knowledge.</p></div>
+    <div class="arrow">→</div>
+    <div class="box"><h3>QuanLift</h3><p>Recognizes the problem, translates it, and checks the result against a formal certificate.</p></div>
+    <div class="arrow">→</div>
+    <div class="box"><h3>A certified program, or a refusal</h3><p>A quantum program with its certificate and a report of what was checked, or a stated reason it was declined.</p></div>
+  </div>
+  <p class="cap" style="margin-top:22px">The library currently covers 24 problem families with machine-checked encoding proofs. Across all our test sets to date, the system has never produced an incorrect translation; what it cannot certify, it refuses.</p>
+</div></section>
+
+<section id="demo"><div class="wrap">
+  <h2>An example</h2>
+  <p class="lead">A maximum-cut function as a developer would write it, and the two kinds of answer QuanLift gives: a certified translation, and a refusal when a program is outside what it can certify.</p>
+  <div class="demo">
+    <div>
+<pre class="code"><span class="c"># plain Python — no quantum code</span>
+<span class="k">def</span> cut_value(part, G):
+    <span class="k">return</span> sum(w <span class="k">for</span> (u, v, w) <span class="k">in</span> G
+               <span class="k">if</span> part[u] != part[v])
+<span class="c"># goal: maximize cut_value</span></pre>
+      <p class="cap">Input: the user's own function.</p>
+    </div>
+    <div>
+<pre class="code"><span class="ok">Certified translation</span>
+task:          Max-Cut (QAOA)
+final_status:  passed
+mapping:       Max-Cut -&gt; QUBO -&gt; QAOA
+attempts:      1 (compile OK, tests 10/10)
+qubits 8 · depth 11 · 2Q gates 20
+verification:  VERIFIED — proceeded to synthesis
+
+<span class="no">Sound abstention</span>
+task:          bubble_sort
+final_status:  abstain
+synthesis:     none (halted before synthesis)
+verification:  BLOCKED — no certified
+               encoding for this program</pre>
+      <p class="cap">Output: abridged reports from the tool.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="team"><div class="wrap">
+  <h2>Team</h2>
+  <div class="team">
+    <div class="person"><h3>Syed Rameez Naqvi, PhD</h3><div class="role">Co-founder and Technical Lead</div><p>Postdoctoral fellow at Tulane University and architect of QuanLift's verification technology. Formerly a tenured associate professor of computer engineering, with 70+ publications in computer architecture, fault-tolerant design, and formal methods.</p></div>
+    <div class="person"><h3>Lu Peng, PhD</h3><div class="role">Co-founder and CEO</div><p>Yahoo! Founder Chair in Science and Engineering and Professor of Computer Science at Tulane University. Research in computer architecture, compiler optimization, and quantum computing systems; 150+ publications and more than $10M in research funding led.</p></div>
+  </div>
+</div></section>
+
+<section id="news"><div class="wrap">
+  <h2>News</h2>
+  <ul class="news">
+    <li><time>Nov 2026</time><div>The founders begin NSF I-Corps customer discovery with the I-Corps Southeast Hub, hosted by Georgia Tech.</div></li>
+    <li><time>Nov 2026</time><div>QuanLift prepares an NSF SBIR Phase I proposal. </div></li>
+    <li><time>Jun 2026</time><div>QuanLift, Inc. is incorporated to commercialize verified classical-to-quantum translation developed at Tulane University.</div></li>
+  </ul>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <h2>Contact</h2>
+  <p class="lead">If you run optimization code and are curious what it would take to try it on quantum hardware, we would like to hear from you.</p>
+  <form action="https://formspree.io/f/myeeagyr" method="POST">
+    <input type="hidden" name="_subject" value="QuanLift website">
+    <label class="hp" for="company">Leave this field empty</label><input class="hp" id="company" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+    <label for="name">Name</label><input id="name" type="text" name="name" required>
+    <label for="email">Email</label><input id="email" type="email" name="email" required>
+    <label for="org">Organization</label><input id="org" type="text" name="organization">
+    <label for="message">Message</label><textarea id="message" name="message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div>© 2026 QuanLift, Inc. · A Tulane University spin-out</div>
+  <div>Formed to commercialize research from the Department of Computer Science, Tulane University</div>
+</div></footer>
+</body>
+</html>
